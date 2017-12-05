@@ -1,2 +1,4 @@
 # PythonModuleNotes
-jupyter
+Python的基本语法练习本
+Python标准库的练习本
+PyQt5实践例子自留地
