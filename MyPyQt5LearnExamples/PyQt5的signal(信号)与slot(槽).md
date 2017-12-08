@@ -328,12 +328,12 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     dlg = Test()
     dlg.show()
-    sys.exit(app.exec_()) 
+    sys.exit(app.exec_())
 ```
 
 
 
-#####示例说明
+##### 示例说明
 
 自定义信号的一般流程如下：
 1、定义信号
@@ -712,10 +712,11 @@ if __name__ == '__main__':
 
 #####注意事项
 
-1.自定义的信号在**init**()函数之前定义； 
-2.自定义型号可以传递，str、int、list、object、float、tuple、dict等很多类型的参数； 
+1.自定义的信号在**init**()函数之前定义；
+2.自定义型号可以传递，str、int、list、object、float、tuple、dict等很多类型的参数；
 3.注意signal和slot的调用逻辑，避免signal和slot之间出现死循环。如在slot方法中继续发射该信号；
 
-ref:
 
+
+ref:
 1.[PyQt5学习笔记05----Qt Designer信号槽](http://blog.csdn.net/a359680405/article/details/45148717),  2.[PyQt5学习笔记06----Qt Designer自定义信号emit及传参](http://blog.csdn.net/a359680405/article/details/45150569),  3.[PyQt之玩转signal(信号)与slot(槽)一：介绍及简单实例](http://blog.csdn.net/u011943221/article/details/47006549),  4.[**Pyqt5系列(七)-信号与槽机制**](http://blog.csdn.net/zhulove86/article/details/52530214),  5.[**Pyqt5系列(八)-自定义信号**](http://blog.csdn.net/zhulove86/article/details/52563131),   6.[**PyQt5 笔记（05）：信号/槽**](http://www.cnblogs.com/hhh5460/p/5176068.html)
