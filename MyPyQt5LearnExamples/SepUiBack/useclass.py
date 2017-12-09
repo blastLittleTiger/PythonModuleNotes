@@ -27,5 +27,5 @@ if __name__ == '__main__':
     myshow.show()
     sys.exit(app.exec_())
 
-    #  NoAttribuate问题的解决，主要是因为Qt Designer设计的APP,继承于QMainWindow而非QWidget
+    #  NoAttribuate问题的解决，主要是因为Qt Designer设计的APP,继承于QMainWindow而非QWidget，但是其实，他们都是继承自QtWidgets的
     #  https://stackoverflow.com/questions/43260595/attributeerror-ui-mainwindow-object-has-no-attribute-setcentralwidget-pyqt5
