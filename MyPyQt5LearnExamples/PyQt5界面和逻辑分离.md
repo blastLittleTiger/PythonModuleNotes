@@ -458,7 +458,7 @@ if __name__ == '__main__':
 显示效果如图
 ![add](http://images.cnblogs.com/cnblogs_com/prayjourney/1041349/o_add.gif)
 
-以上的三种方式功能是相同的，第一种和第二种方式，在槽函数和信号的处理中采用的是注解的方式（后续研究），明显要比第三种首先连接信号和槽函数，然后实现槽函数的这种方式简便很多，需要注意的是，此处*calc_ui.py*是手动方式写的，而我们直接使用*Qt Desginer*设计然后生成的这种方式，所继承的界面类可能不一样，如QtWidgets, QMainWindow, QtDialog等，所以要在这个地方看清楚，以免发生*XXX has no attribute*的错误，尤其要注意，使用*Qt Desginer*设计转化生成的ui类别，都是继承*QtWidgets.QMainWindow*, 所以我们在继承的时候，也都必须要以此类作为第一位置参数，将所要继承的类作为后续的参数，同时，也要注意**MRO**问题。
+以上的三种方式功能是相同的，第一种和第二种方式，在槽函数和信号的处理中采用的是注解的方式（后续研究），明显要比第三种首先连接信号和槽函数，然后实现槽函数的这种方式简便很多，需要注意的是，此处*calc_ui.py*是手动方式写的，而我们直接使用*Qt Desginer*设计然后生成的这种方式，所继承的界面类可能不一样，==*手写的时候，还可以继承QWidget，而使用Qt Desginer的时候，继承的类是QMainWindow，虽然此两个类，都是继承于QtWidgets，但是具体的attribute是有差别的，如果不加以区分，则会产生"No XXXattribute的错误，如QtWidgets, QMainWindow, QDialog等*==，所以要在这个地方看清楚，以免发生*XXX has no attribute*的错误。**而且，在Qt之中，高级的模块包，都是用QtXXX来命名，而其下的子类则使用QXXX来命名，如QtWidgets和其子类QtWidgets。QMainWindow和QtWidgets.QWidget**。尤其要注意，使用*Qt Desginer*设计转化生成的ui类别，都是继承*QtWidgets.QMainWindow*, 所以我们在继承的时候，也都必须要以此类作为第一位置参数，将所要继承的类作为后续的参数，同时，也要注意**MRO**问题。
 
 
 
