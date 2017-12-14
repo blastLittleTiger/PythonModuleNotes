@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>632</width>
+    <height>326</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑 Light</family>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Table的操作</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>img/app2.png</normaloff>img/app2.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>631</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::DashLine</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>632</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>菜单</string>
+    </property>
+    <addaction name="addaction"/>
+    <addaction name="deleteaction"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>内容</string>
+    </property>
+    <addaction name="additemaction"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <action name="addaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/add.png</normaloff>img/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>添加行</string>
+   </property>
+  </action>
+  <action name="deleteaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/cancel.png</normaloff>img/cancel.png</iconset>
+   </property>
+   <property name="text">
+    <string>删除行</string>
+   </property>
+  </action>
+  <action name="additemaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>添加一行</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
