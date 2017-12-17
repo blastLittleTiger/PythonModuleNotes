@@ -2,6 +2,8 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QTableWidgetItem
+from PyQt5.uic.properties import QtCore
+
 from pyqt2nd import TableUi, InfoDlg
 
 
@@ -22,6 +24,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         self.tableWidget.setRowCount(5)
         mlabel = ['序号', '姓名', '年龄', '性别', '电话', '备注']
         self.tableWidget.setHorizontalHeaderLabels(mlabel)  # 设置表头
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 设置双击不编辑
 
     def addtablerow(self):
         row1 = self.tableWidget.rowCount()

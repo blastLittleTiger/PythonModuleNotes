@@ -44,8 +44,11 @@
       <height>301</height>
      </rect>
     </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::DoubleClicked</set>
+    </property>
     <property name="gridStyle">
-     <enum>Qt::DashLine</enum>
+     <enum>Qt::SolidLine</enum>
     </property>
    </widget>
   </widget>
