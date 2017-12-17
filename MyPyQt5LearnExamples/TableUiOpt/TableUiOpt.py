@@ -34,17 +34,6 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             print(row2)
             self.tableWidget.removeRow(row2 - 1)  # 动态删除行的时候，需要减1
 
-    # def edittablerow(self):  # 自己添加数据
-    #     rowindex = 0
-    #     columninex = 0
-    #     if self.tableWidget.selectedItems() is None:
-    #         rowindex = 0
-    #         columninex = 0
-    #     else:
-    #         rowindex = self.tableWidget.currentRow()
-    #         columninex = self.tableWidget.currentColumn()
-    #         self.tableWidget.setItem(rowindex, columninex, QTableWidgetItem("001"))
-
     def edittablerow(self):  # 弹出dlg
         dlg = MyDialog()
         dlg.show()
@@ -61,7 +50,7 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
 
     def initdlg(self):
         listgender = ("男", "女")
-        self.comboBoxAge.addItems(listgender)
+        self.comboBoxGender.addItems(listgender)
         # 也可以使用additem
         # self.comboBoxAge.addItem("男")
 
@@ -78,11 +67,11 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         lineedno = self.lineEdNo.text().strip()
         lineedname = self.lineEdName.text().strip()
         lineedage = self.lineEdAge.text().strip()
-        comboboxage = self.comboBoxAge.currentText().strip()
+        comboxgender = self.comboBoxGender.currentText().strip()
         lineedphone = self.lineEdPhone.text().strip()
-        # lineedotherinfo = self.textEdOtherinfo.content
-        # if (lineedno == "" | lineedname == "" | lineedage == "" | comboboxage == "" |
-        #         lineedphone == "" | lineedotherinfo):
+        lineedotherinfo = self.textEdOtherinfo.toPlainText().strip()  # 获取文本内容
+        # if (lineedno == "" | lineedname == "" | lineedage == "" | comboxgender == "" |
+        #     lineedphone == "" | lineedotherinfo == ""):
         #     return 0
         rowindex = 0
         if tableuiopt.tableWidget.selectedItems() is None:
@@ -92,10 +81,10 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
             print(rowindex)
             tableuiopt.tableWidget.setItem(rowindex, 0, QTableWidgetItem(lineedno))
             tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname))
-            # tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem("123"))
-            # tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem("123"))
-            # tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem("123"))
-            # tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem("123"))
+            tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem(lineedage))
+            tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem(comboxgender))
+            tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone))
+            tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo))
 
 
 if __name__ == "__main__":
