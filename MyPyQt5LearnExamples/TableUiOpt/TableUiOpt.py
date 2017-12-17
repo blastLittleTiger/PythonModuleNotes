@@ -73,16 +73,17 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         self.textEdOtherinfo.setText("")
 
     # 一次只能输入一个cell，如何依次输入多个cell?
+    # 可以一次添加多个cell，之前是因为没有找到对应的函数
     def insertTableRow(self):
         lineedno = self.lineEdNo.text().strip()
         lineedname = self.lineEdName.text().strip()
         lineedage = self.lineEdAge.text().strip()
-        comboboxage = self.comboBoxAge.currentText()
+        comboboxage = self.comboBoxAge.currentText().strip()
         lineedphone = self.lineEdPhone.text().strip()
-        lineedotherinfo = self.textEdOtherinfo.text().strip()
-        if (lineedno == "" | lineedname == "" | lineedage == "" | comboboxage == "" | \
-                lineedphone == "" | lineedotherinfo):
-            return 0
+        # lineedotherinfo = self.textEdOtherinfo.content
+        # if (lineedno == "" | lineedname == "" | lineedage == "" | comboboxage == "" |
+        #         lineedphone == "" | lineedotherinfo):
+        #     return 0
         rowindex = 0
         if tableuiopt.tableWidget.selectedItems() is None:
             rowindex = 0
@@ -90,7 +91,7 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
             rowindex = tableuiopt.tableWidget.currentRow()
             print(rowindex)
             tableuiopt.tableWidget.setItem(rowindex, 0, QTableWidgetItem(lineedno))
-            # tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname))
+            tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname))
             # tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem("123"))
             # tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem("123"))
             # tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem("123"))
