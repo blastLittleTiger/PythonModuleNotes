@@ -1,10 +1,15 @@
 # -*- coding:utf-8-*-
+
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QTableWidgetItem
-from PyQt5.uic.properties import QtCore
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QBrush, QFont
+from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
 
 from pyqt2nd import TableUi, InfoDlg
+
+__author__ = "游侠最光阴"  # 设置作者
+__version__ = "V0.9.8"  # 设置版本号
 
 
 class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
@@ -17,6 +22,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         self.addaction.triggered.connect(self.addtablerow)  # 添加一行
         self.deleteaction.triggered.connect(self.deletetablerow)  # 删除一行
         self.additemaction.triggered.connect(self.edittablerow)  # 编辑一行
+        self.declareaction.triggered.connect(self.showdeclaration)  # 显示声明
 
     # 在此处去初始化table的行和列，而不去在UI转换的文件之中操作，这样方便操作
     def inittable(self):
@@ -25,6 +31,19 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         mlabel = ['序号', '姓名', '年龄', '性别', '电话', '备注']
         self.tableWidget.setHorizontalHeaderLabels(mlabel)  # 设置表头
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 设置双击不编辑
+        self.tableWidget.setAlternatingRowColors(True)  # 改变正在修改的行的颜色
+        # 如何给某一个cell设置tooltip?
+        # 设置表格的颜色
+        for index in range(self.tableWidget.columnCount()):
+            headItem = self.tableWidget.horizontalHeaderItem(index)
+            headItem.setFont(QFont("微软雅黑", 10, QFont.Bold))  # 设置字体
+            headItem.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)  # 设置
+            if (index % 2 == 0):
+                headItem.setBackground(QBrush(Qt.blue))  # 设置背景，但好像没有用
+            else:
+                headItem.setForeground(QBrush(Qt.darkCyan))
+
+        self.tableWidget.horizontalHeaderItem(2).setForeground(QBrush(Qt.green))  # 单独设置背景颜色，无法起作用？
 
     def addtablerow(self):
         row1 = self.tableWidget.rowCount()
@@ -37,10 +56,13 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             print(row2)
             self.tableWidget.removeRow(row2 - 1)  # 动态删除行的时候，需要减1
 
-    def edittablerow(self):  # 弹出dlg
+    def edittablerow(self):  # 弹出添加用户的dlg
         dlg = MyDialog()
         dlg.show()
         dlg.exec_()
+
+    def showdeclaration(self):
+        QMessageBox.about(self, "关于", "版本:   " + __version__ + "\n" + "作者:   " + __author__)
 
 
 class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
@@ -54,6 +76,7 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
     def initdlg(self):
         listgender = ("男", "女")
         self.comboBoxGender.addItems(listgender)
+        self.setModal(True)  # 设置模态和非模态对话框
         # 也可以使用additem
         # self.comboBoxAge.addItem("男")
 
@@ -88,6 +111,7 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
             tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem(comboxgender))
             tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone))
             tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo))
+        self.close()  # 添加了一个联系人，点击确定之后，自动关闭对话框
 
 
 if __name__ == "__main__":

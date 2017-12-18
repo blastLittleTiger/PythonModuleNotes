@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'TableUi.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -44,6 +44,8 @@ class Ui_MainWindow(object):
         self.menu.setObjectName("menu")
         self.menu_2 = QtWidgets.QMenu(self.menubar)
         self.menu_2.setObjectName("menu_2")
+        self.menu_3 = QtWidgets.QMenu(self.menubar)
+        self.menu_3.setObjectName("menu_3")
         MainWindow.setMenuBar(self.menubar)
         self.addaction = QtWidgets.QAction(MainWindow)
         icon1 = QtGui.QIcon()
@@ -60,11 +62,35 @@ class Ui_MainWindow(object):
         icon3.addPixmap(QtGui.QPixmap("img/edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.additemaction.setIcon(icon3)
         self.additemaction.setObjectName("additemaction")
+        self.updateitemaction = QtWidgets.QAction(MainWindow)
+        self.updateitemaction.setObjectName("updateitemaction")
+        self.deleteitemaction = QtWidgets.QAction(MainWindow)
+        self.deleteitemaction.setObjectName("deleteitemaction")
+        self.savetodb = QtWidgets.QAction(MainWindow)
+        self.savetodb.setObjectName("savetodb")
+        self.importfromexcel = QtWidgets.QAction(MainWindow)
+        self.importfromexcel.setObjectName("importfromexcel")
+        self.exporttoexcel = QtWidgets.QAction(MainWindow)
+        self.exporttoexcel.setObjectName("exporttoexcel")
+        self.helpaction = QtWidgets.QAction(MainWindow)
+        self.helpaction.setObjectName("helpaction")
+        self.declareaction = QtWidgets.QAction(MainWindow)
+        self.declareaction.setObjectName("declareaction")
         self.menu.addAction(self.addaction)
         self.menu.addAction(self.deleteaction)
         self.menu_2.addAction(self.additemaction)
+        self.menu_2.addAction(self.updateitemaction)
+        self.menu_2.addAction(self.deleteitemaction)
+        self.menu_2.addSeparator()
+        self.menu_2.addAction(self.savetodb)
+        self.menu_2.addSeparator()
+        self.menu_2.addAction(self.importfromexcel)
+        self.menu_2.addAction(self.exporttoexcel)
+        self.menu_3.addAction(self.helpaction)
+        self.menu_3.addAction(self.declareaction)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
+        self.menubar.addAction(self.menu_3.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -74,7 +100,15 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Table的操作"))
         self.menu.setTitle(_translate("MainWindow", "菜单"))
         self.menu_2.setTitle(_translate("MainWindow", "内容"))
+        self.menu_3.setTitle(_translate("MainWindow", "说明"))
         self.addaction.setText(_translate("MainWindow", "添加行"))
         self.deleteaction.setText(_translate("MainWindow", "删除行"))
         self.additemaction.setText(_translate("MainWindow", "添加一行"))
+        self.updateitemaction.setText(_translate("MainWindow", "修改一行"))
+        self.deleteitemaction.setText(_translate("MainWindow", "删除一行"))
+        self.savetodb.setText(_translate("MainWindow", "保存到数据库"))
+        self.importfromexcel.setText(_translate("MainWindow", "从excel导入"))
+        self.exporttoexcel.setText(_translate("MainWindow", "导出到excel"))
+        self.helpaction.setText(_translate("MainWindow", "帮助"))
+        self.declareaction.setText(_translate("MainWindow", "说明"))
 

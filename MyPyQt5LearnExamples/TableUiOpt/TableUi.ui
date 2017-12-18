@@ -73,9 +73,24 @@
      <string>内容</string>
     </property>
     <addaction name="additemaction"/>
+    <addaction name="updateitemaction"/>
+    <addaction name="deleteitemaction"/>
+    <addaction name="separator"/>
+    <addaction name="savetodb"/>
+    <addaction name="separator"/>
+    <addaction name="importfromexcel"/>
+    <addaction name="exporttoexcel"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>说明</string>
+    </property>
+    <addaction name="helpaction"/>
+    <addaction name="declareaction"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <action name="addaction">
    <property name="icon">
@@ -102,6 +117,41 @@
    </property>
    <property name="text">
     <string>添加一行</string>
+   </property>
+  </action>
+  <action name="updateitemaction">
+   <property name="text">
+    <string>修改一行</string>
+   </property>
+  </action>
+  <action name="deleteitemaction">
+   <property name="text">
+    <string>删除一行</string>
+   </property>
+  </action>
+  <action name="savetodb">
+   <property name="text">
+    <string>保存到数据库</string>
+   </property>
+  </action>
+  <action name="importfromexcel">
+   <property name="text">
+    <string>从excel导入</string>
+   </property>
+  </action>
+  <action name="exporttoexcel">
+   <property name="text">
+    <string>导出到excel</string>
+   </property>
+  </action>
+  <action name="helpaction">
+   <property name="text">
+    <string>帮助</string>
+   </property>
+  </action>
+  <action name="declareaction">
+   <property name="text">
+    <string>说明</string>
    </property>
   </action>
  </widget>
