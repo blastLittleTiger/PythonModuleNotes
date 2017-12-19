@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="newPrefix">
+        <file>image/app.png</file>
+        <file>image/snow.ico</file>
+        <file>image/mnv.jpg</file>
+    </qresource>
+</RCC>
