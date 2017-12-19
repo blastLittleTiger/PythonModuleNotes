@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'TableUi.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.1
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -63,18 +63,33 @@ class Ui_MainWindow(object):
         self.additemaction.setIcon(icon3)
         self.additemaction.setObjectName("additemaction")
         self.updateitemaction = QtWidgets.QAction(MainWindow)
+        self.updateitemaction.setIcon(icon3)
         self.updateitemaction.setObjectName("updateitemaction")
         self.deleteitemaction = QtWidgets.QAction(MainWindow)
+        self.deleteitemaction.setIcon(icon2)
         self.deleteitemaction.setObjectName("deleteitemaction")
         self.savetodb = QtWidgets.QAction(MainWindow)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("img/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.savetodb.setIcon(icon4)
         self.savetodb.setObjectName("savetodb")
         self.importfromexcel = QtWidgets.QAction(MainWindow)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("img/excel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.importfromexcel.setIcon(icon5)
         self.importfromexcel.setObjectName("importfromexcel")
         self.exporttoexcel = QtWidgets.QAction(MainWindow)
+        self.exporttoexcel.setIcon(icon5)
         self.exporttoexcel.setObjectName("exporttoexcel")
         self.helpaction = QtWidgets.QAction(MainWindow)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap("img/declare.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.helpaction.setIcon(icon6)
         self.helpaction.setObjectName("helpaction")
         self.declareaction = QtWidgets.QAction(MainWindow)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap("img/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.declareaction.setIcon(icon7)
         self.declareaction.setObjectName("declareaction")
         self.menu.addAction(self.addaction)
         self.menu.addAction(self.deleteaction)

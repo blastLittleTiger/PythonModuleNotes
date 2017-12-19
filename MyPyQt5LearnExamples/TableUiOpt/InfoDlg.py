@@ -79,3 +79,4 @@ class Ui_Dialog(object):
         self.labelGender.setWhatsThis(_translate("Dialog", "<html><head/><body><p><br/></p></body></html>"))
         self.labelGender.setText(_translate("Dialog", "性别:"))
         self.comboBoxGender.setWhatsThis(_translate("Dialog", "<html><head/><body><p><br/></p></body></html>"))
+

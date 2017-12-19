@@ -120,36 +120,64 @@
    </property>
   </action>
   <action name="updateitemaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
+   </property>
    <property name="text">
     <string>修改一行</string>
    </property>
   </action>
   <action name="deleteitemaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/cancel.png</normaloff>img/cancel.png</iconset>
+   </property>
    <property name="text">
     <string>删除一行</string>
    </property>
   </action>
   <action name="savetodb">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/save.png</normaloff>img/save.png</iconset>
+   </property>
    <property name="text">
     <string>保存到数据库</string>
    </property>
   </action>
   <action name="importfromexcel">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/excel.png</normaloff>img/excel.png</iconset>
+   </property>
    <property name="text">
     <string>从excel导入</string>
    </property>
   </action>
   <action name="exporttoexcel">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/excel.png</normaloff>img/excel.png</iconset>
+   </property>
    <property name="text">
     <string>导出到excel</string>
    </property>
   </action>
   <action name="helpaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/declare.png</normaloff>img/declare.png</iconset>
+   </property>
    <property name="text">
     <string>帮助</string>
    </property>
   </action>
   <action name="declareaction">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/help.png</normaloff>img/help.png</iconset>
+   </property>
    <property name="text">
     <string>说明</string>
    </property>
