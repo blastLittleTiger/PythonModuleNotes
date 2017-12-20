@@ -5,8 +5,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QFont
 from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
-
-from pyqt2nd import TableUi, InfoDlg
+from PyQt5 import QtCore, QtGui, QtWidgets
+from pyqt2nd import TableUi, InfoDlg, tableuires_rc
 
 _author = "游侠最光阴"  # 设置作者
 _version = "V0.9.8"  # 设置版本号
@@ -49,8 +49,41 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
                 headItem.setBackground(QBrush(Qt.blue))  # 设置背景，但好像没有用
             else:
                 headItem.setForeground(QBrush(Qt.darkCyan))
+        # 单独设置背景颜色，无法起作用？
+        self.tableWidget.horizontalHeaderItem(2).setForeground(QBrush(Qt.green))
 
-        self.tableWidget.horizontalHeaderItem(2).setForeground(QBrush(Qt.green))  # 单独设置背景颜色，无法起作用？
+        # 设置主界面的图标
+        icon_app = QtGui.QIcon()
+        icon_app.addPixmap(QtGui.QPixmap(":/myres/img123/app9.png"))
+        self.setWindowIcon(icon_app)
+        icon_add_row = QtGui.QIcon()
+        icon_add_row.addPixmap(QtGui.QPixmap(":/myres/img123/add9.png"))
+        self.addaction.setIcon(icon_add_row)
+        icon_delete_row = QtGui.QIcon()
+        icon_delete_row.addPixmap(QtGui.QPixmap(":/myres/img123/sub9.png"))
+        self.deleteaction.setIcon(icon_delete_row)
+        icon_add_item = QtGui.QIcon()
+        icon_add_item.addPixmap(QtGui.QPixmap(":/myres/img123/addcir9.png"))
+        self.additemaction.setIcon(icon_add_item)
+        icon_update_item = QtGui.QIcon()
+        icon_update_item.addPixmap(QtGui.QPixmap(":/myres/img123/edit9.png"))
+        self.updateitemaction.setIcon(icon_update_item)
+        icon_delete_item = QtGui.QIcon()
+        icon_delete_item.addPixmap(QtGui.QPixmap(":/myres/img123/subcir9.png"))
+        self.deleteitemaction.setIcon(icon_delete_item)
+        icon_save_to_db = QtGui.QIcon()
+        icon_save_to_db.addPixmap(QtGui.QPixmap(":/myres/img123/save9.png"))
+        self.savetodbaction.setIcon(icon_save_to_db)
+        icon_excel = QtGui.QIcon()
+        icon_excel.addPixmap(QtGui.QPixmap(":/myres/img123/excel9.png"))
+        self.importfromexcelaction.setIcon(icon_excel)
+        self.exporttoexcelaction.setIcon(icon_excel)
+        icon_help = QtGui.QIcon()
+        icon_help.addPixmap(QtGui.QPixmap(":/myres/img123/help9.png"))
+        self.helpaction.setIcon(icon_help)
+        icon_declare = QtGui.QIcon()
+        icon_declare.addPixmap(QtGui.QPixmap(":/myres/img123/favor9.png"))
+        self.declareaction.setIcon(icon_declare)
 
     def add_table_row(self):
         row1 = self.tableWidget.rowCount()
@@ -97,6 +130,9 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         self.setModal(True)  # 设置模态和非模态对话框
         # 也可以使用additem
         # self.comboBoxAge.addItem("男")
+        window_icon = QtGui.QIcon()
+        window_icon.addPixmap(QtGui.QPixmap(":/myres/img123/addcir9.png"))
+        self.setWindowIcon(window_icon)
 
     def clear_edit(self):
         self.lineEdNo.setText("")
@@ -142,6 +178,9 @@ class MyUpdateDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
 
     def second_init(self):
         self.setWindowTitle(self.__title)
+        window_icon = QtGui.QIcon()
+        window_icon.addPixmap(QtGui.QPixmap(":/myres/img123/edit9.png"))
+        self.setWindowIcon(window_icon)
 
 
 if __name__ == "__main__":

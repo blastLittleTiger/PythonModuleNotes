@@ -76,10 +76,10 @@
     <addaction name="updateitemaction"/>
     <addaction name="deleteitemaction"/>
     <addaction name="separator"/>
-    <addaction name="savetodb"/>
+    <addaction name="savetodbaction"/>
     <addaction name="separator"/>
-    <addaction name="importfromexcel"/>
-    <addaction name="exporttoexcel"/>
+    <addaction name="importfromexcelaction"/>
+    <addaction name="exporttoexcelaction"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -129,17 +129,17 @@
     <string>删除一行</string>
    </property>
   </action>
-  <action name="savetodb">
+  <action name="savetodbaction">
    <property name="text">
     <string>保存到数据库</string>
    </property>
   </action>
-  <action name="importfromexcel">
+  <action name="importfromexcelaction">
    <property name="text">
     <string>从excel导入</string>
    </property>
   </action>
-  <action name="exporttoexcel">
+  <action name="exporttoexcelaction">
    <property name="text">
     <string>导出到excel</string>
    </property>
