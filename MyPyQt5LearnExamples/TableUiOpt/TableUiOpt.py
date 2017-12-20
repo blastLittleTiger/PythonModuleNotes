@@ -33,8 +33,15 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
     # 在此处去初始化table的行和列，而不去在UI转换的文件之中操作，这样方便操作
     def init_table(self):
+        # 将窗口设置成为固定大小的模式，没有放大和缩小的按钮
+        height = self.tableWidget.height()
+        width = self.tableWidget.width()
+        self.setFixedHeight(height + 5)
+        self.setFixedWidth(width + 5)
+
+        self.tableWidget.setFixedWidth(width)
         self.tableWidget.setColumnCount(6)
-        self.tableWidget.setRowCount(5)
+        self.tableWidget.setRowCount(10)
         mlabel = ['序号', '姓名', '年龄', '性别', '电话', '备注']
         self.tableWidget.setHorizontalHeaderLabels(mlabel)  # 设置表头
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 设置双击不编辑
@@ -48,7 +55,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             if (index % 2 == 0):
                 headItem.setBackground(QBrush(Qt.blue))  # 设置背景，但好像没有用
             else:
-                headItem.setForeground(QBrush(Qt.darkCyan))
+                headItem.setForeground(QBrush(Qt.darkMagenta))
         # 单独设置背景颜色，无法起作用？
         self.tableWidget.horizontalHeaderItem(2).setForeground(QBrush(Qt.green))
 
@@ -121,7 +128,7 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         self.setupUi(self)
         self.second_init()
         self.pushBtnCancle.clicked.connect(self.clear_edit)
-        self.pushBtnOkay.clicked.connect(self.insert_table_row)
+        self.pushBtnOkay.clicked.connect(self.insert_row)
 
     def second_init(self):
         self.setWindowTitle(self.__title)  # 设置了标题栏
@@ -143,7 +150,7 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
 
     # 一次只能输入一个cell，如何依次输入多个cell?
     # 可以一次添加多个cell，之前是因为没有找到对应的函数
-    def insert_table_row(self):
+    def insert_row(self):
         lineedno = self.lineEdNo.text().strip()
         lineedname = self.lineEdName.text().strip()
         lineedage = self.lineEdAge.text().strip()
@@ -175,12 +182,30 @@ class MyUpdateDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         super(MyUpdateDialog, self).__init__(parent)
         self.setupUi(self)
         self.second_init()
+        self.pushBtnCancle.clicked.connect(self.clear_edit)
+        self.pushBtnOkay.clicked.connect(self.update_row)
 
     def second_init(self):
         self.setWindowTitle(self.__title)
         window_icon = QtGui.QIcon()
         window_icon.addPixmap(QtGui.QPixmap(":/myres/img123/edit9.png"))
         self.setWindowIcon(window_icon)
+
+    def clear_edit(self):
+        self.lineEdNo.setText("")
+        self.lineEdName.setText("")
+        self.lineEdAge.setText("")
+        self.lineEdPhone.setText("")
+        self.textEdOtherinfo.setText("")
+
+    def update_row(self):
+        rowindex = 0
+        if (tableuiopt.tableWidget.currentRow() == 0):
+            rowindex = 0
+        else:
+            rowindex = tableuiopt.tableWidget.currentRow()
+
+        print(tableuiopt.tableWidget.item(rowindex, 0).text())  # 获取到了某一个表格的内容
 
 
 if __name__ == "__main__":

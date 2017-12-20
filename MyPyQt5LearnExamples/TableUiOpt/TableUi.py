@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'TableUi.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.1
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(631, 326)
+        MainWindow.resize(646, 326)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setFont(font)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(0, 0, 621, 301))
+        self.tableWidget.setGeometry(QtCore.QRect(0, 0, 641, 301))
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
         self.tableWidget.setGridStyle(QtCore.Qt.SolidLine)
         self.tableWidget.setObjectName("tableWidget")
@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setRowCount(0)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 631, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 646, 23))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
