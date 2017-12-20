@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
 
 from pyqt2nd import TableUi, InfoDlg
 
-__author__ = "游侠最光阴"  # 设置作者
-__version__ = "V0.9.8"  # 设置版本号
+_author = "游侠最光阴"  # 设置作者
+_version = "V0.9.8"  # 设置版本号
 
 
 class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
@@ -17,15 +17,22 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         super().__init__(parent)
 
         self.setupUi(self)
-        self.inittable()
+        self.init_table()
 
-        self.addaction.triggered.connect(self.addtablerow)  # 添加一行
-        self.deleteaction.triggered.connect(self.deletetablerow)  # 删除一行
-        self.additemaction.triggered.connect(self.edittablerow)  # 编辑一行
-        self.declareaction.triggered.connect(self.showdeclaration)  # 显示声明
+        # 菜单菜单列表
+        self.addaction.triggered.connect(self.add_table_row)  # 添加一行
+        self.deleteaction.triggered.connect(self.delete_table_row)  # 删除一行
+
+        # 内容菜单列表
+        self.additemaction.triggered.connect(self.insert_row)  # 编辑一行
+        self.updateitemaction.triggered.connect(self.update_row)  # 更新一行
+        self.updateitemaction.triggered.connect(self.delete_row)  # 删除一行
+
+        # 说明菜单列表
+        self.declareaction.triggered.connect(self.show_declaration)  # 显示声明
 
     # 在此处去初始化table的行和列，而不去在UI转换的文件之中操作，这样方便操作
-    def inittable(self):
+    def init_table(self):
         self.tableWidget.setColumnCount(6)
         self.tableWidget.setRowCount(5)
         mlabel = ['序号', '姓名', '年龄', '性别', '电话', '备注']
@@ -45,42 +52,53 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
         self.tableWidget.horizontalHeaderItem(2).setForeground(QBrush(Qt.green))  # 单独设置背景颜色，无法起作用？
 
-    def addtablerow(self):
+    def add_table_row(self):
         row1 = self.tableWidget.rowCount()
         print(row1)
         self.tableWidget.insertRow(row1)  # 动态增加行的时候，不需要减1
 
-    def deletetablerow(self):
+    def delete_table_row(self):
         row2 = self.tableWidget.rowCount()
         if row2 > 1:
             print(row2)
             self.tableWidget.removeRow(row2 - 1)  # 动态删除行的时候，需要减1
 
-    def edittablerow(self):  # 弹出添加用户的dlg
-        dlg = MyDialog()
-        dlg.show()
-        dlg.exec_()
+    def insert_row(self):  # 添加一行数据，弹出添加用户的dlg
+        insertdlg = MyInsertDialog()
+        insertdlg.show()
+        insertdlg.exec_()
 
-    def showdeclaration(self):
-        QMessageBox.about(self, "关于", "版本:   " + __version__ + "\n" + "作者:   " + __author__)
+    def update_row(self):  # 更新一行数据
+        updatedlg = MyUpdateDialog()
+        updatedlg.show()
+        updatedlg.exec_()
+
+    def delete_row(self):  # 删除一行数据
+        pass
+
+    def show_declaration(self):
+        QMessageBox.about(self, "关于", "版本:  " + _version + "\n" + "作者:  " + _author)
 
 
-class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
+class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
+    __title = "添加联系人信息"
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.initdlg()
-        self.pushBtnCancle.clicked.connect(self.clearEdit)
-        self.pushBtnOkay.clicked.connect(self.insertTableRow)
+        self.second_init()
+        self.pushBtnCancle.clicked.connect(self.clear_edit)
+        self.pushBtnOkay.clicked.connect(self.insert_table_row)
 
-    def initdlg(self):
+    def second_init(self):
+        self.setWindowTitle(self.__title)  # 设置了标题栏
         listgender = ("男", "女")
         self.comboBoxGender.addItems(listgender)
         self.setModal(True)  # 设置模态和非模态对话框
         # 也可以使用additem
         # self.comboBoxAge.addItem("男")
 
-    def clearEdit(self):
+    def clear_edit(self):
         self.lineEdNo.setText("")
         self.lineEdName.setText("")
         self.lineEdAge.setText("")
@@ -89,7 +107,7 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
 
     # 一次只能输入一个cell，如何依次输入多个cell?
     # 可以一次添加多个cell，之前是因为没有找到对应的函数
-    def insertTableRow(self):
+    def insert_table_row(self):
         lineedno = self.lineEdNo.text().strip()
         lineedname = self.lineEdName.text().strip()
         lineedage = self.lineEdAge.text().strip()
@@ -112,6 +130,18 @@ class MyDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
             tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone))
             tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo))
         self.close()  # 添加了一个联系人，点击确定之后，自动关闭对话框
+
+
+class MyUpdateDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
+    __title = "更新联系人信息"
+
+    def __init__(self, parent=None):
+        super(MyUpdateDialog, self).__init__(parent)
+        self.setupUi(self)
+        self.second_init()
+
+    def second_init(self):
+        self.setWindowTitle(self.__title)
 
 
 if __name__ == "__main__":
