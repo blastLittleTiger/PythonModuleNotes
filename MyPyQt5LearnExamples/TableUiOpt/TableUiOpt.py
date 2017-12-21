@@ -26,10 +26,11 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         # 内容菜单列表
         self.additemaction.triggered.connect(self.insert_row)  # 编辑一行
         self.updateitemaction.triggered.connect(self.update_row)  # 更新一行
-        self.updateitemaction.triggered.connect(self.delete_row)  # 删除一行
+        self.deleteitemaction.triggered.connect(self.delete_row)  # 删除一行
 
         # 说明菜单列表
         self.declareaction.triggered.connect(self.show_declaration)  # 显示声明
+        self.qtaction.triggered.connect(self.about_qt)
 
     # 在此处去初始化table的行和列，而不去在UI转换的文件之中操作，这样方便操作
     def init_table(self):
@@ -91,6 +92,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         icon_declare = QtGui.QIcon()
         icon_declare.addPixmap(QtGui.QPixmap(":/myres/img123/favor9.png"))
         self.declareaction.setIcon(icon_declare)
+        self.qtaction.setIcon(icon_declare)
 
     def add_table_row(self):
         row1 = self.tableWidget.rowCount()
@@ -115,10 +117,35 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         updatedlg.exec_()
 
     def delete_row(self):  # 删除一行数据
-        pass
+        index = self.tableWidget.currentRow()
+        lineedno = self.tableWidget.item(index, 0)
+        lineedname = self.tableWidget.item(index, 1)
+        lineedage = self.tableWidget.item(index, 2)
+        comboxgender = self.tableWidget.item(index, 3)
+        lineedphone = self.tableWidget.item(index, 4)
+        lineedotherinfo = self.tableWidget.item(index, 5)
+        if (lineedno == None or lineedname == None or lineedage == None or
+                    comboxgender == None or lineedphone == None or lineedotherinfo == None):
+            QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
+            return  # 此处让messagebox位于中间，让dlg不出现
+        else:
+            info = "你正在删除第" + str(index) + "行联系人信息，是否确定？"
+            reply = QMessageBox.information(self, "删除一行数据", info, QMessageBox.No | QMessageBox.Yes)
+            if (reply == QMessageBox.Yes):
+                lineedno.setText("")
+                lineedname.setText("")
+                lineedage.setText("")
+                comboxgender.setText("")
+                lineedphone.setText("")
+                lineedotherinfo.setText("")
+            else:
+                pass
 
     def show_declaration(self):
         QMessageBox.about(self, "关于", "版本:  " + _version + "\n" + "作者:  " + _author)
+
+    def about_qt(self):
+        QMessageBox.aboutQt(self, "About Qt")
 
 
 class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):

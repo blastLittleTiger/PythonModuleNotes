@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'TableUi.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -76,6 +76,8 @@ class Ui_MainWindow(object):
         self.helpaction.setObjectName("helpaction")
         self.declareaction = QtWidgets.QAction(MainWindow)
         self.declareaction.setObjectName("declareaction")
+        self.qtaction = QtWidgets.QAction(MainWindow)
+        self.qtaction.setObjectName("qtaction")
         self.menu.addAction(self.addaction)
         self.menu.addAction(self.deleteaction)
         self.menu_2.addAction(self.additemaction)
@@ -88,6 +90,7 @@ class Ui_MainWindow(object):
         self.menu_2.addAction(self.exporttoexcelaction)
         self.menu_3.addAction(self.helpaction)
         self.menu_3.addAction(self.declareaction)
+        self.menu_3.addAction(self.qtaction)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
         self.menubar.addAction(self.menu_3.menuAction())
@@ -111,4 +114,5 @@ class Ui_MainWindow(object):
         self.exporttoexcelaction.setText(_translate("MainWindow", "导出到excel"))
         self.helpaction.setText(_translate("MainWindow", "帮助"))
         self.declareaction.setText(_translate("MainWindow", "说明"))
+        self.qtaction.setText(_translate("MainWindow", "关于Qt"))
 

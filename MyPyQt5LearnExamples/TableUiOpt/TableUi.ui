@@ -87,6 +87,7 @@
     </property>
     <addaction name="helpaction"/>
     <addaction name="declareaction"/>
+    <addaction name="qtaction"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -152,6 +153,11 @@
   <action name="declareaction">
    <property name="text">
     <string>说明</string>
+   </property>
+  </action>
+  <action name="qtaction">
+   <property name="text">
+    <string>关于Qt</string>
    </property>
   </action>
  </widget>

@@ -27,7 +27,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>取消</string>
+    <string>清空</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushBtnOkay">
