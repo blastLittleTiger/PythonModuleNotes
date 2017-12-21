@@ -110,6 +110,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
     def update_row(self):  # 更新一行数据
         updatedlg = MyUpdateDialog()
+        # 需要在此处添加数据在dlg上面，或者在初始化的时候
         updatedlg.show()
         updatedlg.exec_()
 
@@ -136,7 +137,7 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         self.comboBoxGender.addItems(listgender)
         self.setModal(True)  # 设置模态和非模态对话框
         # 也可以使用additem
-        # self.comboBoxAge.addItem("男")
+        # self.comboBoxGender.addItem("男")
         window_icon = QtGui.QIcon()
         window_icon.addPixmap(QtGui.QPixmap(":/myres/img123/addcir9.png"))
         self.setWindowIcon(window_icon)
@@ -151,27 +152,30 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
     # 一次只能输入一个cell，如何依次输入多个cell?
     # 可以一次添加多个cell，之前是因为没有找到对应的函数
     def insert_row(self):
-        lineedno = self.lineEdNo.text().strip()
-        lineedname = self.lineEdName.text().strip()
-        lineedage = self.lineEdAge.text().strip()
-        comboxgender = self.comboBoxGender.currentText().strip()
-        lineedphone = self.lineEdPhone.text().strip()
-        lineedotherinfo = self.textEdOtherinfo.toPlainText().strip()  # 获取文本内容
-        # if (lineedno == "" | lineedname == "" | lineedage == "" | comboxgender == "" |
-        #     lineedphone == "" | lineedotherinfo == ""):
-        #     return 0
+        lineedno = self.lineEdNo.text()
+        lineedname = self.lineEdName.text()
+        lineedage = self.lineEdAge.text()
+        comboxgender = self.comboBoxGender.currentText()
+        lineedphone = self.lineEdPhone.text()
+        lineedotherinfo = self.textEdOtherinfo.toPlainText()  # 获取文本内容
+        # 不能使用["|"]运算符，而要使用or运算符，二者的区别，需要注意下
+        if (lineedno == '' or lineedname == '' or lineedage == '' or
+                    lineedphone == '' or lineedotherinfo == ''):
+            print("111")
+            QMessageBox.warning(self, "警告！", "人员信息不能为空！")
+            return 0
         rowindex = 0
         if tableuiopt.tableWidget.selectedItems() is None:
             rowindex = 0
         else:
             rowindex = tableuiopt.tableWidget.currentRow()
             print(rowindex)
-            tableuiopt.tableWidget.setItem(rowindex, 0, QTableWidgetItem(lineedno))
-            tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname))
-            tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem(lineedage))
+            tableuiopt.tableWidget.setItem(rowindex, 0, QTableWidgetItem(lineedno.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem(lineedage.strip('')))
             tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem(comboxgender))
-            tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone))
-            tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo))
+            tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo.strip('')))
         self.close()  # 添加了一个联系人，点击确定之后，自动关闭对话框
 
 
@@ -187,9 +191,38 @@ class MyUpdateDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
 
     def second_init(self):
         self.setWindowTitle(self.__title)
+        listgender = ("男", "女")
+        self.comboBoxGender.addItems(listgender)
         window_icon = QtGui.QIcon()
         window_icon.addPixmap(QtGui.QPixmap(":/myres/img123/edit9.png"))
         self.setWindowIcon(window_icon)
+
+        # 在此处给修改的dlg添加数据
+        # print(tableuiopt.tableWidget.item(rowindex, 0).text())  # 获取到了某一个表格的内容
+        rowindex = 0  # 获取行号
+        if (tableuiopt.tableWidget.currentRow() == 0):
+            rowindex = 0
+        else:
+            rowindex = tableuiopt.tableWidget.currentRow()
+        # 此处可以直接使用tableuiopt.tableWidget.item(rowindex, 0).text(),
+        # 但是如果遇到了text内容为空的情况，就无法处理了，会报错，所以使用None来先验证
+        lineedno = tableuiopt.tableWidget.item(rowindex, 0)
+        lineedname = tableuiopt.tableWidget.item(rowindex, 1)
+        lineedage = tableuiopt.tableWidget.item(rowindex, 2)
+        comboxgender = tableuiopt.tableWidget.item(rowindex, 3)
+        lineedphone = tableuiopt.tableWidget.item(rowindex, 4)
+        lineedotherinfo = tableuiopt.tableWidget.item(rowindex, 5)
+        if (lineedno == None or lineedname == None or lineedage == None or
+                    comboxgender == None or lineedphone == None or lineedotherinfo == None):
+            QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
+            return  # 此处让messagebox位于中间，让dlg不出现
+        else:
+            self.lineEdNo.setText(lineedno.text())
+            self.lineEdName.setText(lineedname.text())
+            self.lineEdAge.setText(lineedage.text())
+            self.comboBoxGender.setCurrentText(comboxgender.text())
+            self.lineEdPhone.setText(lineedphone.text())
+            self.textEdOtherinfo.setText(lineedotherinfo.text())  # 获取文本内容
 
     def clear_edit(self):
         self.lineEdNo.setText("")
@@ -199,13 +232,31 @@ class MyUpdateDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         self.textEdOtherinfo.setText("")
 
     def update_row(self):
+        lineedno = self.lineEdNo.text()
+        lineedname = self.lineEdName.text()
+        lineedage = self.lineEdAge.text()
+        comboxgender = self.comboBoxGender.currentText()
+        lineedphone = self.lineEdPhone.text()
+        lineedotherinfo = self.textEdOtherinfo.toPlainText()  # 获取文本内容
+        # 不能使用["|"]运算符，而要使用or运算符，二者的区别，需要注意下
+        if (lineedno == '' or lineedname == '' or lineedage == '' or
+                    lineedphone == '' or lineedotherinfo == ''):
+            print("111")
+            QMessageBox.warning(self, "警告！", "人员信息不能为空！")
+            return 0
         rowindex = 0
-        if (tableuiopt.tableWidget.currentRow() == 0):
+        if tableuiopt.tableWidget.selectedItems() is None:
             rowindex = 0
         else:
             rowindex = tableuiopt.tableWidget.currentRow()
-
-        print(tableuiopt.tableWidget.item(rowindex, 0).text())  # 获取到了某一个表格的内容
+            print(rowindex)
+            tableuiopt.tableWidget.setItem(rowindex, 0, QTableWidgetItem(lineedno.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem(lineedage.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem(comboxgender))
+            tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone.strip('')))
+            tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo.strip('')))
+        self.close()  # 更新了一个联系人，点击确定之后，自动关闭对话框
 
 
 if __name__ == "__main__":
