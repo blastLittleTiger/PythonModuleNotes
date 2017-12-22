@@ -84,7 +84,6 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         self.savetodbaction.setIcon(icon_save_to_db)
         icon_excel = QtGui.QIcon()
         icon_excel.addPixmap(QtGui.QPixmap(":/myres/img123/excel9.png"))
-        self.importfromexcelaction.setIcon(icon_excel)
         self.exporttoexcelaction.setIcon(icon_excel)
         icon_help = QtGui.QIcon()
         icon_help.addPixmap(QtGui.QPixmap(":/myres/img123/help9.png"))
@@ -129,7 +128,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
             return  # 此处让messagebox位于中间，让dlg不出现
         else:
-            info = "你正在删除第" + str(index) + "行联系人信息，是否确定？"
+            info = "你正在删除第" + str(index + 1) + "行联系人信息，是否确定？"
             reply = QMessageBox.information(self, "删除一行数据", info, QMessageBox.No | QMessageBox.Yes)
             if (reply == QMessageBox.Yes):
                 lineedno.setText("")
@@ -241,6 +240,8 @@ class MyUpdateDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         lineedotherinfo = tableuiopt.tableWidget.item(rowindex, 5)
         if (lineedno == None or lineedname == None or lineedage == None or
                     comboxgender == None or lineedphone == None or lineedotherinfo == None):
+            # s = QMessageBox()
+            # s.setGeometry(self, 200, 300)
             QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
             return  # 此处让messagebox位于中间，让dlg不出现
         else:

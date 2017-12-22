@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -21,9 +22,6 @@ class Ui_MainWindow(object):
         font.setFamily("微软雅黑 Light")
         font.setPointSize(9)
         MainWindow.setFont(font)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/app2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -48,19 +46,10 @@ class Ui_MainWindow(object):
         self.menu_3.setObjectName("menu_3")
         MainWindow.setMenuBar(self.menubar)
         self.addaction = QtWidgets.QAction(MainWindow)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.addaction.setIcon(icon1)
         self.addaction.setObjectName("addaction")
         self.deleteaction = QtWidgets.QAction(MainWindow)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("img/cancel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.deleteaction.setIcon(icon2)
         self.deleteaction.setObjectName("deleteaction")
         self.additemaction = QtWidgets.QAction(MainWindow)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("img/edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.additemaction.setIcon(icon3)
         self.additemaction.setObjectName("additemaction")
         self.updateitemaction = QtWidgets.QAction(MainWindow)
         self.updateitemaction.setObjectName("updateitemaction")
@@ -68,8 +57,6 @@ class Ui_MainWindow(object):
         self.deleteitemaction.setObjectName("deleteitemaction")
         self.savetodbaction = QtWidgets.QAction(MainWindow)
         self.savetodbaction.setObjectName("savetodbaction")
-        self.importfromexcelaction = QtWidgets.QAction(MainWindow)
-        self.importfromexcelaction.setObjectName("importfromexcelaction")
         self.exporttoexcelaction = QtWidgets.QAction(MainWindow)
         self.exporttoexcelaction.setObjectName("exporttoexcelaction")
         self.helpaction = QtWidgets.QAction(MainWindow)
@@ -86,7 +73,6 @@ class Ui_MainWindow(object):
         self.menu_2.addSeparator()
         self.menu_2.addAction(self.savetodbaction)
         self.menu_2.addSeparator()
-        self.menu_2.addAction(self.importfromexcelaction)
         self.menu_2.addAction(self.exporttoexcelaction)
         self.menu_3.addAction(self.helpaction)
         self.menu_3.addAction(self.declareaction)
@@ -110,9 +96,7 @@ class Ui_MainWindow(object):
         self.updateitemaction.setText(_translate("MainWindow", "修改一行"))
         self.deleteitemaction.setText(_translate("MainWindow", "删除一行"))
         self.savetodbaction.setText(_translate("MainWindow", "保存到数据库"))
-        self.importfromexcelaction.setText(_translate("MainWindow", "从excel导入"))
         self.exporttoexcelaction.setText(_translate("MainWindow", "导出到excel"))
         self.helpaction.setText(_translate("MainWindow", "帮助"))
         self.declareaction.setText(_translate("MainWindow", "说明"))
         self.qtaction.setText(_translate("MainWindow", "关于Qt"))
-

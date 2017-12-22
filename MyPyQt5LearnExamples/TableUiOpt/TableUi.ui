@@ -25,10 +25,6 @@
   <property name="windowTitle">
    <string>Table的操作</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>img/app2.png</normaloff>img/app2.png</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="font">
     <font>
@@ -78,7 +74,6 @@
     <addaction name="separator"/>
     <addaction name="savetodbaction"/>
     <addaction name="separator"/>
-    <addaction name="importfromexcelaction"/>
     <addaction name="exporttoexcelaction"/>
    </widget>
    <widget class="QMenu" name="menu_3">
@@ -94,28 +89,16 @@
    <addaction name="menu_3"/>
   </widget>
   <action name="addaction">
-   <property name="icon">
-    <iconset>
-     <normaloff>img/add.png</normaloff>img/add.png</iconset>
-   </property>
    <property name="text">
     <string>添加行</string>
    </property>
   </action>
   <action name="deleteaction">
-   <property name="icon">
-    <iconset>
-     <normaloff>img/cancel.png</normaloff>img/cancel.png</iconset>
-   </property>
    <property name="text">
     <string>删除行</string>
    </property>
   </action>
   <action name="additemaction">
-   <property name="icon">
-    <iconset>
-     <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
-   </property>
    <property name="text">
     <string>添加一行</string>
    </property>
