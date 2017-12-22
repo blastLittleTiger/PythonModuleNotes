@@ -25,6 +25,7 @@ class Ui_Dialog(object):
         self.labelNo.setGeometry(QtCore.QRect(40, 30, 30, 16))
         self.labelNo.setObjectName("labelNo")
         self.lineEdNo = QtWidgets.QLineEdit(Dialog)
+        self.lineEdNo.setEnabled(False)
         self.lineEdNo.setGeometry(QtCore.QRect(75, 30, 225, 20))
         self.lineEdNo.setObjectName("lineEdNo")
         self.labelOtherInfo = QtWidgets.QLabel(Dialog)

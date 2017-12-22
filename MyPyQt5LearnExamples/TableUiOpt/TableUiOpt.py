@@ -1,6 +1,8 @@
 # -*- coding:utf-8-*-
 
+import os
 import sys
+import sqlite3
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QFont
@@ -18,6 +20,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
         self.setupUi(self)
         self.init_table()
+        self.init_db()
 
         # 菜单菜单列表
         self.addaction.triggered.connect(self.add_table_row)  # 添加一行
@@ -27,6 +30,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         self.additemaction.triggered.connect(self.insert_row)  # 编辑一行
         self.updateitemaction.triggered.connect(self.update_row)  # 更新一行
         self.deleteitemaction.triggered.connect(self.delete_row)  # 删除一行
+        self.savetodbaction.triggered.connect(self.save_to_db)  # 将数据保存到数据库
 
         # 说明菜单列表
         self.declareaction.triggered.connect(self.show_declaration)  # 显示声明
@@ -93,6 +97,19 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         self.declareaction.setIcon(icon_declare)
         self.qtaction.setIcon(icon_declare)
 
+    def init_db(self):
+        if not os.path.exists("peopleinfo.db"):
+            # 打开（不存在时候创建）数据库
+            mydb = sqlite3.connect("peopleinfo.db")
+            # 创建游标
+            cu = mydb.cursor()
+            # 创建表，暂时没有设置主键
+            cu.execute("create table tb_people_info( pid integer," +
+                       "name varchar(20), age varchar(3), gender varchar(5)," +
+                       "phone varchar(15), info text NULL)")
+        else:
+            pass
+
     def add_table_row(self):
         row1 = self.tableWidget.rowCount()
         print(row1)
@@ -140,6 +157,9 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             else:
                 pass
 
+    def save_to_db(self):
+        pass
+
     def show_declaration(self):
         QMessageBox.about(self, "关于", "版本:  " + _version + "\n" + "作者:  " + _author)
 
@@ -159,6 +179,9 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
 
     def second_init(self):
         self.setWindowTitle(self.__title)  # 设置了标题栏
+        # 将序号屏蔽掉，只能顺序插入，但下面不支持这样做，只能在ui之中操作
+        # self.lineEdNo.isEnabled(False)
+        self.lineEdNo.setText("人员顺序由系统按顺序自动生成")
         listgender = ("男", "女")
         self.comboBoxGender.addItems(listgender)
         self.setModal(True)  # 设置模态和非模态对话框
@@ -175,33 +198,32 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         self.lineEdPhone.setText("")
         self.textEdOtherinfo.setText("")
 
-    # 一次只能输入一个cell，如何依次输入多个cell?
-    # 可以一次添加多个cell，之前是因为没有找到对应的函数
+    # 一次只能输入一个cell，如何依次输入多个cell?,可以一次添加多个cell，之前是因为没有找到对应的函数
+    # 使得顺序固定增加，不能随意在某行添加了
     def insert_row(self):
-        lineedno = self.lineEdNo.text()
+        rowcount = tableuiopt.tableWidget.rowCount()
+        validrow = 0
+        for x in range(0, rowcount - 1):
+            if (tableuiopt.tableWidget.item(x, 0) != None):
+                validrow = x + 1
+            else:
+                break
         lineedname = self.lineEdName.text()
         lineedage = self.lineEdAge.text()
         comboxgender = self.comboBoxGender.currentText()
         lineedphone = self.lineEdPhone.text()
         lineedotherinfo = self.textEdOtherinfo.toPlainText()  # 获取文本内容
         # 不能使用["|"]运算符，而要使用or运算符，二者的区别，需要注意下
-        if (lineedno == '' or lineedname == '' or lineedage == '' or
+        if (lineedname == '' or lineedage == '' or
                     lineedphone == '' or lineedotherinfo == ''):
-            print("111")
             QMessageBox.warning(self, "警告！", "人员信息不能为空！")
-            return 0
-        rowindex = 0
-        if tableuiopt.tableWidget.selectedItems() is None:
-            rowindex = 0
-        else:
-            rowindex = tableuiopt.tableWidget.currentRow()
-            print(rowindex)
-            tableuiopt.tableWidget.setItem(rowindex, 0, QTableWidgetItem(lineedno.strip('')))
-            tableuiopt.tableWidget.setItem(rowindex, 1, QTableWidgetItem(lineedname.strip('')))
-            tableuiopt.tableWidget.setItem(rowindex, 2, QTableWidgetItem(lineedage.strip('')))
-            tableuiopt.tableWidget.setItem(rowindex, 3, QTableWidgetItem(comboxgender))
-            tableuiopt.tableWidget.setItem(rowindex, 4, QTableWidgetItem(lineedphone.strip('')))
-            tableuiopt.tableWidget.setItem(rowindex, 5, QTableWidgetItem(lineedotherinfo.strip('')))
+            return -1
+        tableuiopt.tableWidget.setItem(validrow, 0, QTableWidgetItem(str(validrow + 1)))
+        tableuiopt.tableWidget.setItem(validrow, 1, QTableWidgetItem(lineedname.strip('')))
+        tableuiopt.tableWidget.setItem(validrow, 2, QTableWidgetItem(lineedage.strip('')))
+        tableuiopt.tableWidget.setItem(validrow, 3, QTableWidgetItem(comboxgender))
+        tableuiopt.tableWidget.setItem(validrow, 4, QTableWidgetItem(lineedphone.strip('')))
+        tableuiopt.tableWidget.setItem(validrow, 5, QTableWidgetItem(lineedotherinfo.strip('')))
         self.close()  # 添加了一个联系人，点击确定之后，自动关闭对话框
 
 
