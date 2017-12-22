@@ -103,8 +103,9 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             mydb = sqlite3.connect("peopleinfo.db")
             # 创建游标
             cu = mydb.cursor()
+
             # 创建表，暂时没有设置主键
-            cu.execute("create table tb_people_info( pid integer," +
+            cu.execute("create table tb_people_info( pid integer primary key," +
                        "name varchar(20), age varchar(3), gender varchar(5)," +
                        "phone varchar(15), info text NULL)")
         else:
@@ -159,6 +160,10 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
     def save_to_db(self):
         pass
+        # 思路:
+        # 按照表格的行列号，获得当前有效的行数据，将每一行的数据，存入到一个元组之中，然后再循环插入其中
+        # 每一次从插入的时候，检测数据库之中，是否存在已有的数据，对于已有的数据，不去更改，对于新数据，插入，对于删除的数据，删除
+        # 现在也可以每次存储之前，都将所有的数据删除，重新插入
 
     def show_declaration(self):
         QMessageBox.about(self, "关于", "版本:  " + _version + "\n" + "作者:  " + _author)
