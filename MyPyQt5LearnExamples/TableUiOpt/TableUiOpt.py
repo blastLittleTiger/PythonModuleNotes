@@ -3,6 +3,7 @@
 import os
 import sys
 import sqlite3
+from sqlite3 import DatabaseError
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QFont
@@ -108,6 +109,8 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             cu.execute("create table tb_people_info( pid integer primary key," +
                        "name varchar(20), age varchar(3), gender varchar(5)," +
                        "phone varchar(15), info text NULL)")
+            cu.close()
+            mydb.close()
         else:
             pass
 
@@ -158,12 +161,27 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             else:
                 pass
 
+    # 思路:
+    # 按照表格的行列号，获得当前有效的行数据，将每一行的数据，存入到一个元组之中，然后再循环插入其中
+    # 每一次从插入的时候，检测数据库之中，是否存在已有的数据，对于已有的数据，不去更改，对于新数据，插入，对于删除的数据，删除
+    # 现在也可以每次存储之前，都将所有的数据删除，重新插入
     def save_to_db(self):
-        pass
-        # 思路:
-        # 按照表格的行列号，获得当前有效的行数据，将每一行的数据，存入到一个元组之中，然后再循环插入其中
-        # 每一次从插入的时候，检测数据库之中，是否存在已有的数据，对于已有的数据，不去更改，对于新数据，插入，对于删除的数据，删除
-        # 现在也可以每次存储之前，都将所有的数据删除，重新插入
+        try:
+            mydb = sqlite3.connect("peopleinfo.db")
+            cu = mydb.cursor()
+            rno = cu.execute("select * from tb_people_info")
+            print(rno.rowcount()) # wenti
+            if rno.rowcount() > 0:
+                cu.execute("delete from tb_people_info")
+                cu.commit()
+        except FileNotFoundError:
+            print("Error: 没有找到数据库文件!")
+        except DatabaseError:
+            print("DatabaseError: 数据库错误!")
+        else:
+            print("数据插入成功!")
+            cu.close()
+            mydb.close()
 
     def show_declaration(self):
         QMessageBox.about(self, "关于", "版本:  " + _version + "\n" + "作者:  " + _author)
