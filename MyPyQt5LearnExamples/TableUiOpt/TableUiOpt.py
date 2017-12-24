@@ -41,6 +41,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
     # 在此处去初始化table的行和列，而不去在UI转换的文件之中操作，这样方便操作
     def init_table(self):
+        self.setWindowTitle("简易通讯录")
         # 将窗口设置成为固定大小的模式，没有放大和缩小的按钮
         height = self.tableWidget.height()
         width = self.tableWidget.width()
@@ -49,7 +50,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
         self.tableWidget.setFixedWidth(width)
         self.tableWidget.setColumnCount(6)
-        self.tableWidget.setRowCount(3)
+        self.tableWidget.setRowCount(12)
         mlabel = ['序号', '姓名', '年龄', '性别', '电话', '备注']
         self.tableWidget.setHorizontalHeaderLabels(mlabel)  # 设置表头
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 设置双击不编辑
