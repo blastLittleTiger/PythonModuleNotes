@@ -3,6 +3,7 @@
 import os
 import sys
 import sqlite3
+from openpyxl import Workbook
 from sqlite3 import DatabaseError
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
@@ -32,6 +33,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         self.updateitemaction.triggered.connect(self.update_row)  # 更新一行
         self.deleteitemaction.triggered.connect(self.delete_row)  # 删除一行
         self.savetodbaction.triggered.connect(self.save_to_db)  # 将数据保存到数据库
+        self.exporttoexcelaction.triggered.connect(self.save_to_excel)  # 将数据保存到excel文件
 
         # 说明菜单列表
         self.declareaction.triggered.connect(self.show_declaration)  # 显示声明
@@ -47,7 +49,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
 
         self.tableWidget.setFixedWidth(width)
         self.tableWidget.setColumnCount(6)
-        self.tableWidget.setRowCount(10)
+        self.tableWidget.setRowCount(3)
         mlabel = ['序号', '姓名', '年龄', '性别', '电话', '备注']
         self.tableWidget.setHorizontalHeaderLabels(mlabel)  # 设置表头
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 设置双击不编辑
@@ -172,7 +174,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             result = cu.execute("SELECT * FROM tb_people_info")
             rowno = len(result.fetchall())
             if rowno > 0:
-                cu.execute("delete from tb_people_info")
+                cu.execute("DELETE FROM tb_people_info")
                 mydb.commit()
             else:
                 pass
@@ -182,7 +184,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             if (tableuiopt.tableWidget.item(0, 0) == None):
                 QMessageBox.warning(self, "提示", "没有可用数据！")
                 return
-            for x in range(0, rowcount - 1):
+            for x in range(0, rowcount):
                 if (tableuiopt.tableWidget.item(x, 0) != None):
                     pid = tableuiopt.tableWidget.item(x, 0).text()
                     name = tableuiopt.tableWidget.item(x, 1).text()
@@ -194,7 +196,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
                     people_info.append(temp)
                     print(people_info)
                 else:
-                    pass
+                    break
             insertsql = "insert into tb_people_info(pid,name,age,gender,phone,info) VALUES(?,?,?,?,?,?) "
             cu.executemany(insertsql, people_info)
             mydb.commit()
@@ -206,6 +208,48 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
             print("数据插入成功!")
             cu.close()
             mydb.close()
+
+    def save_to_excel(self):
+        # 获取数据
+        people_info = []
+        rowcount = tableuiopt.tableWidget.rowCount()
+        # 检测列表之中是否有数据
+        if (tableuiopt.tableWidget.item(0, 0) == None):
+            QMessageBox.warning(self, "提示", "没有可用数据！")
+            return
+        else:
+            for x in range(0, rowcount):
+                if (tableuiopt.tableWidget.item(x, 0) != None):
+                    pid = tableuiopt.tableWidget.item(x, 0).text()
+                    name = tableuiopt.tableWidget.item(x, 1).text()
+                    age = tableuiopt.tableWidget.item(x, 2).text()
+                    gender = tableuiopt.tableWidget.item(x, 3).text()
+                    tel = tableuiopt.tableWidget.item(x, 4).text()
+                    other = tableuiopt.tableWidget.item(x, 5).text()
+                    temp = (pid, name, age, gender, tel, other)
+                    people_info.append(temp)
+                    print(people_info)
+                else:
+                    break
+        try:
+            wb = Workbook()  # 创建一个工作簿，一个工作簿创建好之后，默认就有一个sheet
+            sheet = wb.active  # 激活当前的sheet
+            sheet.title = "联系人信息"
+            tableTitle = ['序号', '姓名', '年龄', '性别', '电话', '备注']
+            # 如上，openpyxl 的首行、首列 是 （1,1）而不是（0,0），如果坐标输入含有小于1的值，
+            # 提示 ：Row or column values must be at least 1，即最小值为1.
+            # 设置标题
+            for col in range(len(tableTitle)):
+                c = col + 1
+                sheet.cell(row=1, column=c).value = tableTitle[col]
+            # 插入数据
+            for x in range(len(people_info)):
+                for y in range(6):
+                    sheet.cell(row=x + 2, column=y + 1).value = people_info[x][y]
+
+            wb.save("peopleinfo.xlsx")  # 保存
+        except BaseException:
+            print("出现错误！")
 
     def show_declaration(self):
         QMessageBox.about(self, "关于", "版本:  " + _version + "\n" + "作者:  " + _author)
