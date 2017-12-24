@@ -169,11 +169,35 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         try:
             mydb = sqlite3.connect("peopleinfo.db")
             cu = mydb.cursor()
-            rno = cu.execute("select * from tb_people_info")
-            print(rno.rowcount()) # wenti
-            if rno.rowcount() > 0:
+            result = cu.execute("SELECT * FROM tb_people_info")
+            rowno = len(result.fetchall())
+            if rowno > 0:
                 cu.execute("delete from tb_people_info")
-                cu.commit()
+                mydb.commit()
+            else:
+                pass
+            people_info = []
+            rowcount = tableuiopt.tableWidget.rowCount()
+            # 检测列表之中是否有数据
+            if (tableuiopt.tableWidget.item(0, 0) == None):
+                QMessageBox.warning(self, "提示", "没有可用数据！")
+                return
+            for x in range(0, rowcount - 1):
+                if (tableuiopt.tableWidget.item(x, 0) != None):
+                    pid = tableuiopt.tableWidget.item(x, 0).text()
+                    name = tableuiopt.tableWidget.item(x, 1).text()
+                    age = tableuiopt.tableWidget.item(x, 2).text()
+                    gender = tableuiopt.tableWidget.item(x, 3).text()
+                    tel = tableuiopt.tableWidget.item(x, 4).text()
+                    other = tableuiopt.tableWidget.item(x, 5).text()
+                    temp = (pid, name, age, gender, tel, other)
+                    people_info.append(temp)
+                    print(people_info)
+                else:
+                    pass
+            insertsql = "insert into tb_people_info(pid,name,age,gender,phone,info) VALUES(?,?,?,?,?,?) "
+            cu.executemany(insertsql, people_info)
+            mydb.commit()
         except FileNotFoundError:
             print("Error: 没有找到数据库文件!")
         except DatabaseError:
