@@ -2,17 +2,16 @@
 
 # Form implementation generated from reading ui file 'TableUi.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.1
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(646, 326)  # 646, 326
+        MainWindow.resize(646, 326)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -28,8 +27,9 @@ class Ui_MainWindow(object):
         self.centralwidget.setFont(font)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        # 通过修改大小，让初始界面显示不再遮住一条记录
         self.tableWidget.setGeometry(QtCore.QRect(0, 0, 641, 318))
+        # 通过设置水平方向的滚动条和设置大小，消除了最后一行遮挡的情况
+        self.tableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
         self.tableWidget.setGridStyle(QtCore.Qt.SolidLine)
         self.tableWidget.setObjectName("tableWidget")
@@ -58,6 +58,8 @@ class Ui_MainWindow(object):
         self.deleteitemaction.setObjectName("deleteitemaction")
         self.savetodbaction = QtWidgets.QAction(MainWindow)
         self.savetodbaction.setObjectName("savetodbaction")
+        self.importfromexcelaction = QtWidgets.QAction(MainWindow)
+        self.importfromexcelaction.setObjectName("importfromexcelaction")
         self.exporttoexcelaction = QtWidgets.QAction(MainWindow)
         self.exporttoexcelaction.setObjectName("exporttoexcelaction")
         self.helpaction = QtWidgets.QAction(MainWindow)
@@ -97,7 +99,9 @@ class Ui_MainWindow(object):
         self.updateitemaction.setText(_translate("MainWindow", "修改一行"))
         self.deleteitemaction.setText(_translate("MainWindow", "删除一行"))
         self.savetodbaction.setText(_translate("MainWindow", "保存到数据库"))
+        self.importfromexcelaction.setText(_translate("MainWindow", "从excel导入"))
         self.exporttoexcelaction.setText(_translate("MainWindow", "导出到excel"))
         self.helpaction.setText(_translate("MainWindow", "帮助"))
         self.declareaction.setText(_translate("MainWindow", "说明"))
         self.qtaction.setText(_translate("MainWindow", "关于Qt"))
+

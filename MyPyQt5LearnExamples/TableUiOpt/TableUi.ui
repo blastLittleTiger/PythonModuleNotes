@@ -37,8 +37,11 @@
       <x>0</x>
       <y>0</y>
       <width>641</width>
-      <height>301</height>
+      <height>318</height>
      </rect>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="editTriggers">
      <set>QAbstractItemView::DoubleClicked</set>
