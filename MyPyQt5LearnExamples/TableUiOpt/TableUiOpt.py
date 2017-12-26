@@ -179,36 +179,20 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
                 else:
                     pass
 
-                    # index = self.tableWidget.currentRow()
-                    # lineedno = self.tableWidget.item(index, 0)
-                    # lineedname = self.tableWidget.item(index, 1)
-                    # lineedage = self.tableWidget.item(index, 2)
-                    # comboxgender = self.tableWidget.item(index, 3)
-                    # lineedphone = self.tableWidget.item(index, 4)
-                    # lineedotherinfo = self.tableWidget.item(index, 5)
-                    # if (lineedno == None or lineedname == None or lineedage == None or
-                    #             comboxgender == None or lineedphone == None or lineedotherinfo == None):
-                    #     QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
-                    #     return  # 此处让messagebox位于中间，让dlg不出现
-                    # else:
-                    #     info = "你正在删除第" + str(index + 1) + "行联系人信息，是否确定？"
-                    #     reply = QMessageBox.information(self, "删除一行数据", info, QMessageBox.No | QMessageBox.Yes)
-                    #     if (reply == QMessageBox.Yes):
-                    #         lineedno.setText("")
-                    #         lineedname.setText("")
-                    #         lineedage.setText("")
-                    #         comboxgender.setText("")
-                    #         lineedphone.setText("")
-                    #         lineedotherinfo.setText("")
-                    #     else:
-                    #         pass
-
     # 思路:
     # 按照表格的行列号，获得当前有效的行数据，将每一行的数据，存入到一个元组之中，然后再循环插入其中
     # 每一次从插入的时候，检测数据库之中，是否存在已有的数据，对于已有的数据，不去更改，对于新数据，插入，对于删除的数据，删除
     # 现在也可以每次存储之前，都将所有的数据删除，重新插入
     def save_to_db(self):
         try:
+            people_info = []
+            rowcount = tableuiopt.tableWidget.rowCount()
+            # 检测列表之中是否有数据
+            if (tableuiopt.tableWidget.item(0, 0) == None or tableuiopt.tableWidget.item(0, 0).text() == ""):
+                QMessageBox.warning(self, "提示", "没有可用数据！")
+                return
+
+            # 此处还是要修改一下，先处理判断是否为空，如果为空，则不删除，如果不为空，则删除
             mydb = sqlite3.connect("peopleinfo.db")
             cu = mydb.cursor()
             result = cu.execute("SELECT * FROM tb_people_info")
@@ -218,12 +202,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
                 mydb.commit()
             else:
                 pass
-            people_info = []
-            rowcount = tableuiopt.tableWidget.rowCount()
-            # 检测列表之中是否有数据
-            if (tableuiopt.tableWidget.item(0, 0) == None):
-                QMessageBox.warning(self, "提示", "没有可用数据！")
-                return
+
             for x in range(0, rowcount):
                 if (tableuiopt.tableWidget.item(x, 0) != None):
                     pid = tableuiopt.tableWidget.item(x, 0).text()
@@ -254,7 +233,7 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         people_info = []
         rowcount = tableuiopt.tableWidget.rowCount()
         # 检测列表之中是否有数据
-        if (tableuiopt.tableWidget.item(0, 0) == None):
+        if (tableuiopt.tableWidget.item(0, 0) == None or tableuiopt.tableWidget.item(0, 0).text() == ""):
             QMessageBox.warning(self, "提示", "没有可用数据！")
             return
         else:
@@ -333,12 +312,12 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
     # 使得顺序固定增加，不能随意在某行添加了
     def insert_row(self):
         rowcount = tableuiopt.tableWidget.rowCount()
-        validrow = 0
+        validrow = 0  # 有效的行数目
         for x in range(0, rowcount):
-            if (tableuiopt.tableWidget.item(x, 0) == None or tableuiopt.tableWidget.item(x, 0).text()==""):
+            if (tableuiopt.tableWidget.item(x, 0) == None or tableuiopt.tableWidget.item(x, 0).text() == ""):
                 break
             else:
-                validrow = x+1
+                validrow = x + 1
         lineedname = self.lineEdName.text()
         lineedage = self.lineEdAge.text()
         comboxgender = self.comboBoxGender.currentText()
@@ -348,13 +327,23 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
         if (lineedname == '' or lineedage == '' or
                     lineedphone == '' or lineedotherinfo == ''):
             QMessageBox.warning(self, "警告！", "人员信息不能为空！")
-            return -1
-        tableuiopt.tableWidget.setItem(validrow, 0, QTableWidgetItem(str(validrow + 1)))
-        tableuiopt.tableWidget.setItem(validrow, 1, QTableWidgetItem(lineedname.strip('')))
-        tableuiopt.tableWidget.setItem(validrow, 2, QTableWidgetItem(lineedage.strip('')))
-        tableuiopt.tableWidget.setItem(validrow, 3, QTableWidgetItem(comboxgender))
-        tableuiopt.tableWidget.setItem(validrow, 4, QTableWidgetItem(lineedphone.strip('')))
-        tableuiopt.tableWidget.setItem(validrow, 5, QTableWidgetItem(lineedotherinfo.strip('')))
+            return
+        if validrow == 0:
+            tableuiopt.tableWidget.setItem(validrow, 0, QTableWidgetItem(str(validrow + 1)))
+            tableuiopt.tableWidget.setItem(validrow, 1, QTableWidgetItem(lineedname.strip('')))
+            tableuiopt.tableWidget.setItem(validrow, 2, QTableWidgetItem(lineedage.strip('')))
+            tableuiopt.tableWidget.setItem(validrow, 3, QTableWidgetItem(comboxgender))
+            tableuiopt.tableWidget.setItem(validrow, 4, QTableWidgetItem(lineedphone.strip('')))
+            tableuiopt.tableWidget.setItem(validrow, 5, QTableWidgetItem(lineedotherinfo.strip('')))
+        else:
+            inx = validrow - 1
+            indextemp = int(tableuiopt.tableWidget.item(inx, 0).text())  # 用来记录最后一行的ID值
+            tableuiopt.tableWidget.setItem(validrow, 0, QTableWidgetItem(str(indextemp + 1)))
+            tableuiopt.tableWidget.setItem(validrow, 1, QTableWidgetItem(lineedname.strip('')))
+            tableuiopt.tableWidget.setItem(validrow, 2, QTableWidgetItem(lineedage.strip('')))
+            tableuiopt.tableWidget.setItem(validrow, 3, QTableWidgetItem(comboxgender))
+            tableuiopt.tableWidget.setItem(validrow, 4, QTableWidgetItem(lineedphone.strip('')))
+            tableuiopt.tableWidget.setItem(validrow, 5, QTableWidgetItem(lineedotherinfo.strip('')))
         self.close()  # 添加了一个联系人，点击确定之后，自动关闭对话框
 
 
