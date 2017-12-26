@@ -140,29 +140,68 @@ class TableUiOpt(QtWidgets.QMainWindow, TableUi.Ui_MainWindow):
         updatedlg.exec_()
 
     def delete_row(self):  # 删除一行数据
-        index = self.tableWidget.currentRow()
-        lineedno = self.tableWidget.item(index, 0)
-        lineedname = self.tableWidget.item(index, 1)
-        lineedage = self.tableWidget.item(index, 2)
-        comboxgender = self.tableWidget.item(index, 3)
-        lineedphone = self.tableWidget.item(index, 4)
-        lineedotherinfo = self.tableWidget.item(index, 5)
-        if (lineedno == None or lineedname == None or lineedage == None or
-                    comboxgender == None or lineedphone == None or lineedotherinfo == None):
-            QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
+        # 获取有效的行数
+        rowcount = self.tableWidget.rowCount()
+        validrow = 0
+        for x in range(0, rowcount):
+            if (self.tableWidget.item(x, 0) != None):
+                validrow = x + 1
+            else:
+                break
+        if (validrow == 0):
+            QMessageBox.warning(self, "警告！", "表格之中没有数据！")
             return  # 此处让messagebox位于中间，让dlg不出现
         else:
-            info = "你正在删除第" + str(index + 1) + "行联系人信息，是否确定？"
-            reply = QMessageBox.information(self, "删除一行数据", info, QMessageBox.No | QMessageBox.Yes)
-            if (reply == QMessageBox.Yes):
-                lineedno.setText("")
-                lineedname.setText("")
-                lineedage.setText("")
-                comboxgender.setText("")
-                lineedphone.setText("")
-                lineedotherinfo.setText("")
+            index = self.tableWidget.currentRow()
+            lineedno = self.tableWidget.item(index, 0)
+            lineedname = self.tableWidget.item(index, 1)
+            lineedage = self.tableWidget.item(index, 2)
+            comboxgender = self.tableWidget.item(index, 3)
+            lineedphone = self.tableWidget.item(index, 4)
+            lineedotherinfo = self.tableWidget.item(index, 5)
+            if (lineedno == None or lineedname == None or lineedage == None or
+                        comboxgender == None or lineedphone == None or lineedotherinfo == None):
+                QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
+                return  # 此处让messagebox位于中间，让dlg不出现
             else:
-                pass
+                info = "你正在删除第" + str(index + 1) + "行联系人信息，是否确定？"
+                reply = QMessageBox.information(self, "删除一行数据", info, QMessageBox.No | QMessageBox.Yes)
+                if (reply == QMessageBox.Yes):
+                    if (validrow == 1 and index == 0):
+                        lineedno.setText("")
+                        lineedname.setText("")
+                        lineedage.setText("")
+                        comboxgender.setText("")
+                        lineedphone.setText("")
+                        lineedotherinfo.setText("")
+                    elif (validrow > 1):
+                        self.tableWidget.removeRow(index)
+                else:
+                    pass
+
+                    # index = self.tableWidget.currentRow()
+                    # lineedno = self.tableWidget.item(index, 0)
+                    # lineedname = self.tableWidget.item(index, 1)
+                    # lineedage = self.tableWidget.item(index, 2)
+                    # comboxgender = self.tableWidget.item(index, 3)
+                    # lineedphone = self.tableWidget.item(index, 4)
+                    # lineedotherinfo = self.tableWidget.item(index, 5)
+                    # if (lineedno == None or lineedname == None or lineedage == None or
+                    #             comboxgender == None or lineedphone == None or lineedotherinfo == None):
+                    #     QMessageBox.warning(self, "警告！", "所选人员信息不能为空！")
+                    #     return  # 此处让messagebox位于中间，让dlg不出现
+                    # else:
+                    #     info = "你正在删除第" + str(index + 1) + "行联系人信息，是否确定？"
+                    #     reply = QMessageBox.information(self, "删除一行数据", info, QMessageBox.No | QMessageBox.Yes)
+                    #     if (reply == QMessageBox.Yes):
+                    #         lineedno.setText("")
+                    #         lineedname.setText("")
+                    #         lineedage.setText("")
+                    #         comboxgender.setText("")
+                    #         lineedphone.setText("")
+                    #         lineedotherinfo.setText("")
+                    #     else:
+                    #         pass
 
     # 思路:
     # 按照表格的行列号，获得当前有效的行数据，将每一行的数据，存入到一个元组之中，然后再循环插入其中
@@ -295,11 +334,11 @@ class MyInsertDialog(QtWidgets.QDialog, InfoDlg.Ui_Dialog):
     def insert_row(self):
         rowcount = tableuiopt.tableWidget.rowCount()
         validrow = 0
-        for x in range(0, rowcount - 1):
-            if (tableuiopt.tableWidget.item(x, 0) != None):
-                validrow = x + 1
-            else:
+        for x in range(0, rowcount):
+            if (tableuiopt.tableWidget.item(x, 0) == None or tableuiopt.tableWidget.item(x, 0).text()==""):
                 break
+            else:
+                validrow = x+1
         lineedname = self.lineEdName.text()
         lineedage = self.lineEdAge.text()
         comboxgender = self.comboBoxGender.currentText()
